@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+<head>   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUTHLESS | Official Store</title>
+
+    
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Syne & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image" href="image/logo.png">
+
+    <!-- Tailwind Custom Tokens -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        youth: {
+                            black: '#08080A',
+                            surface: '#111115',
+                            card: '#18181F',
+                            border: '#282833',
+                            accent: '#FFFFFF',
+                            muted: '#8A8A9E'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Syne', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    
+
+    <!-- Custom CSS & Scrollbars -->
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #08080A;
+            color: #F3F4F6;
+        }
+        .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08080A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282833;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col bg-youth-black text-gray-100 antialiased selection:bg-white selection:text-black">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-youth-black/90 backdrop-blur-md border-b border-youth-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <span class="text-2xl font-800 tracking-tighter font-display text-white group-hover:opacity-80 transition">YOUTHLESS</span>
+                <span class="text-[9px] tracking-[0.3em] bg-white text-black font-bold px-1.5 py-0.5 rounded uppercase">Atelier</span>
+            </a>
+
+            <!-- Admin / Switcher Button -->
+            <div class="flex items-center gap-4">
+                <button id="navAdminBtn" onclick="toggleView()" class="relative inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white border border-youth-border rounded-full hover:bg-white hover:text-black transition-all duration-300">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span id="navAdminText">Merchant Dashboard</span>
+                    <span id="pendingBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+
+    <!-- STOREFRONT VIEW -->
+    <div id="storeView" class="flex-grow">
+        
+        <!-- Hero & Product Showcase Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Product Gallery / Visual Showcase -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="relative aspect-square w-full rounded-2xl overflow-hidden bg-youth-card border border-youth-border group flex items-center justify-center">
+                        <img id="mainProductImg" src="image/teefront.jpg" alt="YOUTHLESS Heavyweight Tee Front" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700" onerror="this.src=''">
+                        <span class="absolute top-4 left-4 bg-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full border border-youth-border uppercase tracking-widest">
+                            LIMITED EDITION 01
+                        </span>
+                        <span id="imageLabel" class="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-youth-muted text-[11px] font-bold px-3 py-1 rounded-lg border border-youth-border uppercase tracking-wider">
+                            Front View
+                        </span>
+                    </div>
+
+                    <!-- Front & Back Image Switcher Thumbnails -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="thumbFrontBtn" onclick="switchImage('image/teefront.jpg', 'Front View')" class="flex items-center gap-3 p-3 rounded-xl border-2 border-white bg-youth-card focus:outline-none transition group">
+                            <div class="w-12 h-12 rounded-lg bg-black p-1 border border-youth-border overflow-hidden flex-shrink-0">
+                                <img src="image/teefront.jpg" class="w-full h-full object-contain" onerror="this.src=''">
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-xs font-extrabold text-white">FRONT VIEW</span>
+                                <span class="block text-[10px] text-youth-muted uppercase">Graphic Chest Print</span>
+                            </div>
+                        </button>
+                        <button id="thumbBackBtn" onclick="switchImage('image/teeback.jpg', 'Back View')" class="flex items-center gap-3 p-3 rounded-xl border border-youth-border bg-youth-card opacity-70 hover:opacity-100 focus:outline-none transition group">
+                            <div class="w-12 h-12 rounded-lg bg-black p-1 border border-youth-border overflow-hidden flex-shrink-0">
+                                <img src="image/teeback.jpg" class="w-full h-full object-contain" onerror="this.src=''">
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-xs font-extrabold text-white">BACK VIEW</span>
+                                <span class="block text-[10px] text-youth-muted uppercase">Minimal Collar Crest</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Details & Direct Order Action -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="border-b border-youth-border pb-6 space-y-3">
+                        <span class="text-xs font-bold uppercase tracking-[0.3em] text-youth-muted">AUTUMN / WINTER Drop</span>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight text-white">YOUTHLESS HEAVYWEIGHT GRAPHIC TEE</h1>
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="text-3xl font-extrabold text-white">45,000 MMK</span>
+                            <span class="text-xs bg-green-500/10 text-green-400 font-semibold px-2.5 py-1 rounded border border-green-500/20">In Stock</span>
+                        </div>
+                    </div>
+
+                    <!-- Single Item Specifications -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-youth-card border border-youth-border">
+                            <span class="text-xs font-bold text-youth-muted uppercase tracking-wider">Size</span>
+                            <span class="text-xs font-bold bg-white text-black px-3 py-1 rounded">FREE SIZE (Oversized Boxy Fit)</span>
+                        </div>
+
+                        <p class="text-sm text-youth-muted leading-relaxed">
+                            Crafted from heavy 240GSM washed vintage black cotton with custom oversized artwork across the front chest and signature YOUTHLESS geometric emblem printed on the back collar.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs text-youth-muted border-t border-youth-border pt-4">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>240 GSM Heavy Vintage Cotton</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Front Screenprint Graphics</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Boxy Oversized Cut</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Rear Neckline Emblem</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Order Action Button -->
+                    <div class="pt-4">
+                        <button onclick="openCheckoutModal()" class="w-full py-4 bg-white hover:bg-gray-200 text-black font-extrabold text-sm uppercase tracking-widest rounded-xl transition-all transform active:scale-95 shadow-xl flex items-center justify-center gap-2">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                            Order Now • 45,000 MMK
+                        </button>
+                        <p class="text-[11px] text-center text-youth-muted mt-3">Direct order with instant KBZPay payment verification.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MERCHANT DASHBOARD VIEW -->
+    <div id="adminView" class="hidden flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <!-- Dashboard Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-8 border-b border-youth-border">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-white/10 text-white text-xs font-bold px-2.5 py-1 rounded border border-white/20">YOUTHLESS Merchant</span>
+                    <span class="text-xs text-youth-muted" id="lastUpdated">Updated just now</span>
+                </div>
+                <h1 class="text-3xl font-extrabold font-display text-white mt-2">Incoming Shipping Orders</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="exportOrdersCSV()" class="px-4 py-2 bg-youth-card hover:bg-youth-border text-white border border-youth-border rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                    <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+                </button>
+                <button onclick="clearAllOrders()" class="px-4 py-2 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-lg text-xs font-bold transition">
+                    Clear Orders
+                </button>
+                <button onclick="toggleView()" class="px-4 py-2 bg-white text-black hover:bg-gray-200 font-bold rounded-lg text-xs transition">
+                    &larr; Storefront
+                </button>
+            </div>
+        </div>
+
+        <!-- Orders List Container -->
+        <div id="ordersContainer">
+            <!-- Dynamically filled by JavaScript -->
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL DRAWER -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="relative w-full max-w-2xl bg-youth-surface border border-youth-border rounded-2xl shadow-2xl overflow-hidden my-auto">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-youth-border bg-youth-black">
+                <div>
+                    <h3 class="text-lg font-extrabold font-display text-white">YOUTHLESS DIRECT CHECKOUT</h3>
+                    <p class="text-xs text-youth-muted">Complete shipping details & attach KBZPay receipt</p>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-youth-muted hover:text-white p-2 rounded-lg hover:bg-youth-card transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            
+
+            <!-- Modal Form -->
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="p-6 space-y-6">
+                <input type="hidden" name="access_key" value="7338f9d7-ef6e-4180-8446-ebfd5e5a6e8e">
+                
+                <!-- Order Summary -->
+                <div class="flex items-center justify-between p-4 rounded-xl bg-youth-card border border-youth-border">
+                    <div class="flex items-center gap-3">
+                        <img src="image/teefront.jpg" class="w-12 h-12 rounded-lg object-contain bg-black p-1 border border-youth-border" onerror="this.src=''">
+                        <div>
+                            <h4 class="text-xs font-bold text-white">YOUTHLESS Heavyweight Graphic Tee</h4>
+                            <p class="text-[11px] text-youth-muted">Size: FREE SIZE</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-youth-muted block">Total Payable</span>
+                        <span class="text-sm font-extrabold text-white">45,000 MMK</span>
+                    </div>
+                </div>
+                
+
+                <!-- Customer Shipping Info Fields -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">1. Shipping Address Details</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-youth-muted mb-1">Full Name *</label>
+                            <input type="text" id="customerName" required placeholder="e.g. Min Thuta" class="w-full bg-youth-black border border-youth-border rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-youth-muted mb-1">Phone Number *</label>
+                            <input type="tel" id="customerPhone" required placeholder="09xxxxxxxxx" class="w-full bg-youth-black border border-youth-border rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-youth-muted mb-1">City / Region *</label>
+                            <input type="text" id="customerCity" required placeholder="e.g. Yangon / Mandalay" class="w-full bg-youth-black border border-youth-border rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-youth-muted mb-1">Township & Street Address *</label>
+                            <input type="text" id="customerAddress" required placeholder="Kamayut, No. 12 Pyay Road" class="w-full bg-youth-black border border-youth-border rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-youth-muted mb-1">Delivery Notes (Optional)</label>
+                        <input type="text" id="customerNotes" placeholder="Special delivery instructions" class="w-full bg-youth-black border border-youth-border rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white transition">
+                    </div>
+                </div>
+
+                <!-- KBZPay Transfer Details & File Upload -->
+                <div class="p-5 rounded-xl bg-youth-card border border-blue-900/40 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider">2. KBZPay Transfer & Receipt</h4>
+                        <span class="text-[10px] bg-blue-500/10 text-blue-300 px-2 py-0.5 rounded border border-blue-500/20">KPay Direct</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-youth-black/80 p-3 rounded-lg border border-youth-border text-xs">
+                        <div>
+                            <span class="text-youth-muted block">KPay Account Name</span>
+                            <span class="font-bold text-white">War War Htun</span>
+                        </div>
+                        <div>
+                            <span class="text-youth-muted block">KPay Phone Number</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono font-bold text-white">0943008939</span>
+                                <button type="button" onclick="copyKpay('0943008939')" class="text-youth-muted hover:text-white"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Receipt File Upload Input -->
+                    <div>
+                        <label class="block text-xs font-semibold text-youth-muted mb-2">Upload KPay Transaction Screenshot *</label>
+                        <div class="relative border-2 border-dashed border-youth-border hover:border-white rounded-xl p-4 text-center cursor-pointer transition bg-youth-black">
+                            <input type="file" id="receiptInput" accept="image/*" required onchange="handleReceiptPreview(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                            <div id="uploadPrompt" class="space-y-1">
+                                <i data-lucide="upload-cloud" class="w-7 h-7 mx-auto text-youth-muted"></i>
+                                <p class="text-xs font-bold text-white">Click or drop KPay screenshot receipt here</p>
+                                <p class="text-[10px] text-youth-muted">PNG, JPG or WEBP (Max 5MB)</p>
+                            </div>
+                            <div id="receiptPreviewContainer" class="hidden flex items-center justify-center gap-3">
+                                <img id="receiptPreviewImg" src="" alt="Receipt Preview" class="h-16 w-auto rounded border border-youth-border object-cover">
+                                <div class="text-left">
+                                    <p id="receiptFileName" class="text-xs font-bold text-white truncate max-w-[180px]"></p>
+                                    <span class="text-[10px] text-green-400 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Receipt Attached</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-youth-border">
+                    <button type="button" onclick="closeCheckoutModal()" class="px-4 py-2 text-xs font-bold text-youth-muted hover:text-white">Cancel</button>
+                    <button type="submit" class="px-8 py-3 bg-white hover:bg-gray-200 text-black font-extrabold text-xs uppercase tracking-widest rounded-lg shadow-lg transition transform active:scale-95 flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        Confirm Order • 45,000 MMK
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ZOOM RECEIPT MODAL -->
+    <div id="imageModal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4" onclick="closeImageModal()">
+        <div class="relative max-w-3xl max-h-[90vh] overflow-hidden" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white bg-black/60 p-2 rounded-full hover:bg-white/20 transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <img id="modalZoomImg" src="" alt="Full Receipt Screenshot" class="max-w-full max-h-[85vh] rounded-lg object-contain border border-youth-border">
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // YOUTHLESS Single Item Data
+        const PRODUCT = {
+            id: 'youthless-01',
+            name: 'YOUTHLESS Heavyweight Graphic Tee',
+            price: 45000,
+            size: 'FREE SIZE',
+            image: ''
+        };
+
+        let currentView = 'shop';
+        let receiptBase64 = null;
+        let orders = [];
+
+        // Application Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            loadOrdersFromStorage();
+            updatePendingBadge();
+            lucide.createIcons();
+        });
+
+        function switchImage(src, labelText) {
+            const mainImg = document.getElementById('mainProductImg');
+            mainImg.src = src;
+            document.getElementById('imageLabel').innerText = labelText;
+
+            // Update button styles
+            const frontBtn = document.getElementById('thumbFrontBtn');
+            const backBtn = document.getElementById('thumbBackBtn');
+
+            if (src.includes('Front')) {
+                frontBtn.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-white bg-youth-card focus:outline-none transition group";
+                backBtn.className = "flex items-center gap-3 p-3 rounded-xl border border-youth-border bg-youth-card opacity-70 hover:opacity-100 focus:outline-none transition group";
+            } else {
+                backBtn.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-white bg-youth-card focus:outline-none transition group";
+                frontBtn.className = "flex items-center gap-3 p-3 rounded-xl border border-youth-border bg-youth-card opacity-70 hover:opacity-100 focus:outline-none transition group";
+            }
+        }
+
+        function formatMMK(amount) {
+            return new Intl.NumberFormat('en-US').format(amount) + ' MMK';
+        }
+
+        function openCheckoutModal() {
+            receiptBase64 = null;
+            document.getElementById('orderForm').reset();
+            document.getElementById('uploadPrompt').classList.remove('hidden');
+            document.getElementById('receiptPreviewContainer').classList.add('hidden');
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleReceiptPreview(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File size exceeds 5MB limit', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                receiptBase64 = e.target.result;
+                document.getElementById('receiptPreviewImg').src = receiptBase64;
+                document.getElementById('receiptFileName').innerText = file.name;
+                
+                document.getElementById('uploadPrompt').classList.add('hidden');
+                document.getElementById('receiptPreviewContainer').classList.remove('hidden');
+                lucide.createIcons();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleOrderSubmit(event) {
+            event.preventDefault();
+
+            if (!receiptBase64) {
+                showToast('Please attach your KBZPay payment screenshot', 'error');
+                return;
+            }
+
+            const newOrder = {
+                id: 'YL-' + Math.floor(100000 + Math.random() * 900000),
+                timestamp: new Date().toLocaleString(),
+                customer: {
+                    name: document.getElementById('customerName').value,
+                    phone: document.getElementById('customerPhone').value,
+                    city: document.getElementById('customerCity').value,
+                    address: document.getElementById('customerAddress').value,
+                    notes: document.getElementById('customerNotes').value || 'None'
+                },
+                item: PRODUCT,
+                totalAmount: PRODUCT.price,
+                receiptImage: receiptBase64,
+                status: 'Pending'
+            };
+
+            orders.unshift(newOrder);
+            saveOrdersToStorage();
+            updatePendingBadge();
+
+            closeCheckoutModal();
+            showToast('Order submitted! Merchant will review your order.', 'success');
+        }
+
+        // LocalStorage Management
+        function loadOrdersFromStorage() {
+            const stored = localStorage.getItem('youthless_orders');
+            if (stored) {
+                try {
+                    orders = JSON.parse(stored);
+                } catch (e) {
+                    orders = [];
+                }
+            } else {
+                orders = [
+                    {
+                        id: 'YL-981240',
+                        timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ', Today',
+                        customer: {
+                            name: 'Aung Kyaw',
+                            phone: '09 791 234 567',
+                            city: 'Yangon',
+                            address: 'No. 88, Sanchaung Street',
+                            notes: 'Call before delivery'
+                        },
+                        item: PRODUCT,
+                        totalAmount: 45000,
+                        receiptImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
+                        status: 'Pending'
+                    }
+                ];
+                saveOrdersToStorage();
+            }
+        }
+
+        function saveOrdersToStorage() {
+            localStorage.setItem('youthless_orders', JSON.stringify(orders));
+        }
+
+        function clearAllOrders() {
+            if (confirm("Clear all orders from database?")) {
+                orders = [];
+                saveOrdersToStorage();
+                renderAdminDashboard();
+                updatePendingBadge();
+                showToast("Orders cleared", "info");
+            }
+        }
+
+        function exportOrdersCSV() {
+            if (orders.length === 0) {
+                showToast('No orders to export', 'error');
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,Order ID,Date,Name,Phone,City,Address,Item,Size,Price,Status\n";
+            orders.forEach(o => {
+                csvContent += `"${o.id}","${o.timestamp}","${o.customer.name}","${o.customer.phone}","${o.customer.city}","${o.customer.address}","${o.item.name}","${o.item.size}","${o.totalAmount}","${o.status}"\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `YOUTHLESS_Orders_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function toggleView() {
+            if (currentView === 'shop') {
+                currentView = 'admin';
+                document.getElementById('storeView').classList.add('hidden');
+                document.getElementById('adminView').classList.remove('hidden');
+                document.getElementById('navAdminText').innerText = 'Back to Shop';
+                renderAdminDashboard();
+            } else {    
+                currentView = 'shop';
+                document.getElementById('adminView').classList.add('hidden');
+                document.getElementById('storeView').classList.remove('hidden');
+                document.getElementById('navAdminText').innerText = 'Merchant Dashboard';
+            }
+        }
+
+        function updatePendingBadge() {
+            const pendingCount = orders.filter(o => o.status === 'Pending').length;
+            const badge = document.getElementById('pendingBadge');
+            if (pendingCount > 0) {
+                badge.innerText = pendingCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Render Merchant Admin View
+        function renderAdminDashboard() {
+            const container = document.getElementById('ordersContainer');
+            document.getElementById('lastUpdated').innerText = 'Updated: ' + new Date().toLocaleTimeString();
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 bg-youth-card rounded-2xl border border-youth-border">
+                        <i data-lucide="inbox" class="w-12 h-12 mx-auto text-youth-muted mb-3"></i>
+                        <h3 class="text-lg font-bold text-white">No Orders Found</h3>
+                        <p class="text-xs text-youth-muted mt-1">Submitted customer orders will show up here automatically.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="space-y-6">
+                    ${orders.map(order => `
+                        <div class="bg-youth-card rounded-2xl border border-youth-border p-6 hover:border-white/40 transition">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-youth-border">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-mono text-sm font-bold text-white">${order.id}</span>
+                                    <span class="text-xs text-youth-muted">• ${order.timestamp}</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <label class="text-xs font-bold text-youth-muted">Status:</label>
+                                    <select onchange="updateOrderStatus('${order.id}', this.value)" class="bg-youth-black border border-youth-border text-xs font-bold px-3 py-1.5 rounded-lg text-white focus:outline-none focus:border-white">
+                                        <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                                        <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>🚚 Shipped</option>
+                                        <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                                <!-- Customer Shipping Info -->
+                                <div class="space-y-1">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-youth-muted">Customer Delivery Address</h4>
+                                    <p class="text-sm font-bold text-white mt-1">${order.customer.name}</p>
+                                    <p class="text-xs text-youth-muted font-mono"><i data-lucide="phone" class="w-3 h-3 inline mr-1"></i>${order.customer.phone}</p>
+                                    <p class="text-xs text-gray-300 mt-2">${order.customer.address}, ${order.customer.city}</p>
+                                    ${order.customer.notes !== 'None' ? `<p class="text-[11px] text-amber-400 italic mt-1">Note: ${order.customer.notes}</p>` : ''}
+                                </div>
+
+                                <!-- Purchased Item Details -->
+                                <div class="flex gap-3">
+                                    <img src="${order.item.image}" class="w-16 h-16 object-contain bg-black p-1 rounded-lg border border-youth-border" onerror="this.src='https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=200&q=80'">
+                                    <div>
+                                        <h4 class="text-xs font-bold uppercase tracking-wider text-youth-muted">Item Details</h4>
+                                        <p class="text-xs font-bold text-white mt-1">${order.item.name}</p>
+                                        <p class="text-xs text-youth-muted mt-1">Size: <span class="text-white font-bold">${order.item.size}</span></p>
+                                        <p class="text-sm font-bold text-white mt-1">${formatMMK(order.totalAmount)}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Receipt Screenshot Preview -->
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-youth-muted mb-2">KBZPay Payment Receipt</h4>
+                                    <div class="relative group cursor-pointer inline-block" onclick="openImageModal('${order.receiptImage}')">
+                                        <img src="${order.receiptImage}" class="h-20 w-20 object-cover rounded-xl border border-youth-border group-hover:opacity-80 transition">
+                                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-xl transition">
+                                            <i data-lucide="zoom-in" class="w-5 h-5 text-white"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-youth-muted mt-1">Click to view full receipt</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                saveOrdersToStorage();
+                updatePendingBadge();
+                showToast(`Order ${orderId} status set to ${newStatus}`, 'info');
+            }
+        }
+
+        function openImageModal(imgSrc) {
+            document.getElementById('modalZoomImg').src = imgSrc;
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+
+        function copyKpay(num) {
+            navigator.clipboard.writeText(num);
+            showToast('KPay Phone Number Copied!', 'info');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'error' ? 'bg-red-900/90 text-red-200 border-red-700' : 
+                            type === 'success' ? 'bg-green-900/90 text-green-200 border-green-700' : 
+                            'bg-youth-card text-white border-youth-border';
+
+            toast.className = `flex items-center gap-2 px-4 py-3 rounded-xl border backdrop-blur-md shadow-2xl text-xs font-bold transform transition-all duration-300 translate-y-2 opacity-0 ${bgColor}`;
+            toast.innerHTML = `<span>${message}</span>`;
+
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
